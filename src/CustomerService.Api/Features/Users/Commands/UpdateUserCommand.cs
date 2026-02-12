@@ -3,6 +3,8 @@ using Customer.Contracts.User.Responses;
 using CustomerService.Api.Domain;
 using CustomerService.Api.Features.Common.Exceptions;
 using CustomerService.Api.Infrastructure.Data;
+using CustomerService.Contracts.User.Events;
+using MassTransit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,10 +15,12 @@ public record UpdateUserCommand(string UserId, UpdateUserRequest UpdateUserReque
 public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, UserResponse>
 {
     private readonly ApplicationDbContext _context;
+    private readonly IPublishEndpoint _publishEndpoint;
 
-    public UpdateUserCommandHandler(ApplicationDbContext context)
+    public UpdateUserCommandHandler(ApplicationDbContext context, IPublishEndpoint publishEndpoint)
     {
         _context = context;
+        _publishEndpoint = publishEndpoint;
     }
     public async Task<UserResponse> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
@@ -37,6 +41,13 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, UserR
         userFromDb.PhoneNumber = request.UpdateUserRequest.Phone;
         _context.Users.Update(userFromDb) ;
         await _context.SaveChangesAsync(cancellationToken);
+        await _publishEndpoint.Publish(
+            new UserUpdatedEvent()
+            {
+                Id= userFromDb.Id,
+                UpdatedOnUtc = DateTime.UtcNow
+            },
+            cancellationToken);
      
         return new UserResponse()
         {

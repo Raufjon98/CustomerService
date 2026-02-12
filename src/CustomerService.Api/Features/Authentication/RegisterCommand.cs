@@ -1,5 +1,7 @@
 using CustomerService.Api.Domain;
 using CustomerService.Contracts.Authorization.Requests;
+using CustomerService.Contracts.User.Events;
+using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -11,10 +13,12 @@ public record RegisterCommand(RegisterRequest Register) : IRequest<bool>;
 public class RegisterCommandHandler : IRequestHandler<RegisterCommand, bool>
 {
     private readonly UserManager<User> _userManager;
+    private readonly IPublishEndpoint _publishEndpoint;
 
-    public RegisterCommandHandler(UserManager<User> userManager)
+    public RegisterCommandHandler(UserManager<User> userManager, IPublishEndpoint publishEndpoint)
     {
         _userManager = userManager;
+        _publishEndpoint = publishEndpoint;
     }
 
     public async Task<bool> Handle(RegisterCommand request, CancellationToken cancellationToken)
@@ -42,6 +46,15 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, bool>
             var roleResult = await _userManager.AddToRoleAsync(user, "Customer");
             if (roleResult.Succeeded)
             {
+                await _publishEndpoint.Publish(
+                    new RegisteredEvent
+                    {
+                        Id = user.Id,
+                        Email = user.Email,
+                        RegisteredOnUtc = DateTime.UtcNow
+                    },
+                    cancellationToken);
+                
                 return true;
             }
         }
