@@ -9,6 +9,8 @@
   <ItemGroup>
     <PackageReference Include="FluentResults" Version="4.0.0" />
     <PackageReference Include="MagicOnion.Server" Version="7.0.9" />
+    <PackageReference Include="MassTransit" Version="8" />
+    <PackageReference Include="MassTransit.RabbitMQ" Version="8" />
     <PackageReference Include="MediatR" Version="11" />
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.0" />
@@ -24,10 +26,6 @@
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.0" />
     <PackageReference Include="PaymentService.Contracts" Version="1.0.5" />
     <PackageReference Include="Scalar.AspNetCore" Version="2.12.3" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Infrastructure\Repositories\" />
   </ItemGroup>
 
   <ItemGroup>

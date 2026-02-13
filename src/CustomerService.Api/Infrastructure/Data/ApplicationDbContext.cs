@@ -32,5 +32,6 @@ public class ApplicationDbContext : IdentityDbContext<User>
         };
 
         builder.Entity<IdentityRole>().HasData(roles);
+        builder.ApplyConfigurationsFromAssembly(typeof(ApplicationDbContext).Assembly);
     }
 }
