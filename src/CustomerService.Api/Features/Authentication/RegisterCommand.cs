@@ -33,8 +33,8 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, bool>
         };
 
         if (await _userManager.Users.AnyAsync(u => u.NormalizedEmail == user.Email.ToUpper()
-                                                   && u.NormalizedUserName == user.UserName.ToUpper()
-                                                   && u.IsDelete == true, cancellationToken))
+                                                   && u.NormalizedUserName == user.UserName.ToUpper(),
+                                                    cancellationToken))
         {
             return false;
         }
@@ -54,7 +54,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, bool>
                         RegisteredOnUtc = DateTime.UtcNow
                     },
                     cancellationToken);
-                
+
                 return true;
             }
         }

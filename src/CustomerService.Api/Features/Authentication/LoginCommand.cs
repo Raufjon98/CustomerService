@@ -27,7 +27,7 @@ public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginResponse>
     {
         var normalizedUserName = request.Login.Username.ToUpper(); 
         var user = await _userManager.Users
-            .Where(u=>u.NormalizedUserName == normalizedUserName && u.IsDelete == false)
+            .Where(u=>u.NormalizedUserName == normalizedUserName)
             .FirstOrDefaultAsync( cancellationToken);
         if (user == null)
         {

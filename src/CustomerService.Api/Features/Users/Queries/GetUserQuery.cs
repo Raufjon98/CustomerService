@@ -19,7 +19,7 @@ public class GetUserQueryHandler : IRequestHandler<GetUserQuery, UserResponse?>
     public async Task<UserResponse?> Handle(GetUserQuery request, CancellationToken cancellationToken)
     {
         var user = await _context.Users
-            .Where(u => u.Id == request.UserId && u.IsDelete == false)
+            .Where(u => u.Id == request.UserId)
             .Select(u=> new UserResponse()
             {
                 Id = u.Id,

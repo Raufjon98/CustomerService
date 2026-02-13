@@ -25,8 +25,7 @@ public class UpdateUserCommandHandler : IRequestHandler<UpdateUserCommand, UserR
     public async Task<UserResponse> Handle(UpdateUserCommand request, CancellationToken cancellationToken)
     {
         var userFromDb = await _context.Users
-            .Where(u=> u.Id == request.UserId && u.IsDelete == false)
-            .FirstOrDefaultAsync( cancellationToken);
+            .FirstOrDefaultAsync(u=> u.Id == request.UserId, cancellationToken);
 
         if (userFromDb is null)
         {

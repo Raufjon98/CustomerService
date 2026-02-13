@@ -22,8 +22,7 @@ public class UpdateUserPasswordCommandHandler : IRequestHandler<UpdateUserPasswo
     public async Task<bool> Handle(UpdateUserPasswordCommand request, CancellationToken cancellationToken)
     {
         var user = await _userManager.Users
-            .Where(u => u.Id == request.UserId && u.IsDelete == false)
-            .FirstOrDefaultAsync( cancellationToken);
+            .FirstOrDefaultAsync(u => u.Id == request.UserId, cancellationToken);
         
         if (user == null)
         {
