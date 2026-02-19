@@ -25,7 +25,9 @@ public class GetUsersQueryHandler : IRequestHandler<GetUsersQuery, List<UserResp
                 UserName = u.UserName,
                 FirstName = u.FirstName,
                 LastName = u.LastName,
-                Age = DateTime.Today.Year - u.DateOfBirth.Year,
+                Age = u.DateOfBirth != default
+                    ? DateTime.Today.Year - u.DateOfBirth.Year
+                    : 0
             }).ToListAsync(cancellationToken);
         return users;
     }
