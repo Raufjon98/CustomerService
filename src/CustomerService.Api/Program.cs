@@ -9,12 +9,9 @@ using CustomerService.Api.Services;
 using CustomerService.Contracts.Interfaces;
 using MassTransit;
 using MediatR;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Server.Kestrel.Core;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 using PaymentService.Contracts.Extentions;
 using RabbitMQ.Client;
 using Scalar.AspNetCore;
@@ -24,21 +21,24 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 
 var rabbitConnectionString = builder.Configuration["MessageBroker:Host"];
 
-builder.Services.AddMassTransit(configuration =>
+if (!builder.Environment.IsEnvironment("IntegrationTest"))
 {
-    configuration.UsingRabbitMq((ctx, cfg) =>
+    builder.Services.AddMassTransit(configuration =>
     {
-        cfg.Host(rabbitConnectionString);
-        cfg.ExchangeType = ExchangeType.Fanout;
-        cfg.ConfigureEndpoints(ctx);
+        configuration.UsingRabbitMq((ctx, cfg) =>
+        {
+            cfg.Host(rabbitConnectionString);
+            cfg.ExchangeType = ExchangeType.Fanout;
+            cfg.ConfigureEndpoints(ctx);
+        });
     });
-});
+}
 
 builder.WebHost.ConfigureKestrel(options =>
 {
     options.ListenAnyIP(5051, listenOptions =>
     {
-        listenOptions.UseHttps();              
+        listenOptions.UseHttps();
         listenOptions.Protocols = HttpProtocols.Http2;
     });
 });
@@ -60,10 +60,7 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseNpgsql
 builder.Services.AddAuthorization();
 builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 builder.Services.AddPaymentServiceContracts();
-builder.Services.AddGrpc(options =>
-{
-    options.Interceptors.Add<ExceptionInterceptor>();
-});
+builder.Services.AddGrpc(options => { options.Interceptors.Add<ExceptionInterceptor>(); });
 builder.Services.AddMagicOnion();
 
 var app = builder.Build();
