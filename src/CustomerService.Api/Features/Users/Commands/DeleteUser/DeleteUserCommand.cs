@@ -7,7 +7,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using PaymentService.Contracts.Interfaces;
 
-namespace CustomerService.Api.Features.Users.Commands;
+namespace CustomerService.Api.Features.Users.Commands.DeleteUser;
 
 public record DeleteUserCommand(string UserId) : IRequest<bool>;
 

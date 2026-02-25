@@ -1,7 +1,10 @@
 using Customer.Contracts.User.Requests;
 using Customer.Contracts.User.Responses;
-using CustomerService.Api.Features.Users.Commands;
-using CustomerService.Api.Features.Users.Queries;
+using CustomerService.Api.Features.Users.Commands.DeleteUser;
+using CustomerService.Api.Features.Users.Commands.UpdateUser;
+using CustomerService.Api.Features.Users.Commands.UpdateUserPassword;
+using CustomerService.Api.Features.Users.Queries.GetUser;
+using CustomerService.Api.Features.Users.Queries.GetUsers;
 using CustomerService.Contracts.Interfaces;
 using MagicOnion;
 using MagicOnion.Server;

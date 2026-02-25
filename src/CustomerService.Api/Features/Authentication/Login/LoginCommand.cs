@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace CustomerService.Api.Features.Authentication;
+namespace CustomerService.Api.Features.Authentication.Login;
 
 public record LoginCommand(LoginRequest Login) : IRequest<LoginResponse>;
 public class LoginCommandHandler : IRequestHandler<LoginCommand, LoginResponse>

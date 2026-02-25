@@ -3,7 +3,7 @@ using CustomerService.Api.Infrastructure.Data;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace CustomerService.Api.Features.Users.Queries;
+namespace CustomerService.Api.Features.Users.Queries.GetUsers;
 
 public record GetUsersQuery : IRequest<List<UserResponse>>;
 
