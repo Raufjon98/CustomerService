@@ -2,11 +2,13 @@ using System.Reflection;
 using CustomerService.Api.Data;
 using CustomerService.Api.Interfaces;
 using CustomerService.Api.Domain;
+using CustomerService.Api.Features.Common.Behaviors;
 using CustomerService.Api.Infrastructure.Data;
 using CustomerService.Api.Infrastructure.Interceptors;
 using CustomerService.Api.MagicOnion.Services;
 using CustomerService.Api.Services;
 using CustomerService.Contracts.Interfaces;
+using FluentValidation;
 using MassTransit;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -62,6 +64,8 @@ builder.Services.AddMediatR(Assembly.GetExecutingAssembly());
 builder.Services.AddPaymentServiceContracts();
 builder.Services.AddGrpc(options => { options.Interceptors.Add<ExceptionInterceptor>(); });
 builder.Services.AddMagicOnion();
+builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+builder.Services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
 var app = builder.Build();
 

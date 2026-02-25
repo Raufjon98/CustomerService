@@ -16,5 +16,5 @@ public record RegisterRequest
     [Key(4)]
     public required string Password { get; set; }
     [Key(5)]
-    public DateOnly DateOfBirth { get; set; }
+    public DateOnly? DateOfBirth { get; set; }
 };

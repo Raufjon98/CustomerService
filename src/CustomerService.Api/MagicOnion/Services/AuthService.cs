@@ -1,4 +1,6 @@
-using CustomerService.Api.Features.Authentication;
+using CustomerService.Api.Features.Authentication.Login;
+using CustomerService.Api.Features.Authentication.Logout;
+using CustomerService.Api.Features.Authentication.Register;
 using CustomerService.Contracts.Authorization.Requests;
 using CustomerService.Contracts.Authorization.Responses;
 using CustomerService.Contracts.Interfaces;

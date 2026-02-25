@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace CustomerService.Api.Features.Authentication;
+namespace CustomerService.Api.Features.Authentication.Register;
 
 public record RegisterCommand(RegisterRequest Register) : IRequest<bool>;
 
@@ -29,7 +29,7 @@ public class RegisterCommandHandler : IRequestHandler<RegisterCommand, bool>
             UserName = request.Register.Username,
             LastName = request.Register.Lastname,
             FirstName = request.Register.Firstname,
-            DateOfBirth = request.Register.DateOfBirth
+            DateOfBirth = request.Register.DateOfBirth ?? DateOnly.MinValue
         };
 
         if (await _userManager.Users.AnyAsync(u => u.NormalizedEmail == user.Email.ToUpper()

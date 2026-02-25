@@ -2,7 +2,7 @@ using CustomerService.Api.Domain;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 
-namespace CustomerService.Api.Features.Authentication;
+namespace CustomerService.Api.Features.Authentication.Logout;
 
 public record LogoutCommand : IRequest;
 

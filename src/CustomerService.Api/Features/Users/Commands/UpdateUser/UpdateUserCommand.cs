@@ -8,7 +8,7 @@ using MassTransit;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
-namespace CustomerService.Api.Features.Users.Commands;
+namespace CustomerService.Api.Features.Users.Commands.UpdateUser;
 
 public record UpdateUserCommand(string UserId, UpdateUserRequest UpdateUserRequest) : IRequest<UserResponse>;
 

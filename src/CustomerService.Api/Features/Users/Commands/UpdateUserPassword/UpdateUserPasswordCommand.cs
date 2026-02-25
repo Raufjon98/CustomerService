@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace CustomerService.Api.Features.Users.Commands;
+namespace CustomerService.Api.Features.Users.Commands.UpdateUserPassword;
 
 public record UpdateUserPasswordCommand(string UserId, string OldPassword , string NewPassword) :   IRequest<bool>;
 public class UpdateUserPasswordCommandHandler : IRequestHandler<UpdateUserPasswordCommand, bool>
